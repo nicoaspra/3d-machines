@@ -420,15 +420,6 @@
 \definecolor{colorD}{RGB}{0,174,239}		%thomas' light blue
 \definecolor{colorY}{RGB}{255,224,102}		%yellow
 
-%%% Link Table of Contents %%%
-\usepackage{color}
-\usepackage{hyperref}
-\hypersetup{
-	colorlinks=true, % make the links colored
-	linkcolor=colorA, % color TOC links in blue
-	urlcolor=red, % color URLs in red
-	linktoc=all % 'all' will create links for everything in the TOC
-	}
 
 \newcommand\ansbox {
 	\begin{center}
@@ -472,39 +463,7 @@
 \renewcommand{\@seccntformat}[1]{}
 \makeatother
 
-%%% GRAPHS %%%
-\usepackage{pgf,tikz,pgfplots}
-\pgfplotsset{compat=newest}
-\usepackage{mathrsfs}
-\usetikzlibrary{angles,patterns,calc}
-\usetikzlibrary{arrows,decorations.markings,intersections}	
 
-\usepackage{titletoc}
-\usetikzlibrary{shapes.geometric}
-\usepgfplotslibrary{polar}
-\tikzset{>=latex}		%convert arrows > to latex
-\tikzset{dot/.style = {draw,fill,circle,colorB, inner sep=\dotptA}}	\tikzset{linearrow/.style = {colorB, thin},}
-
-\tikzset{arrow inside/.style = {postaction=decorate,decoration={markings,mark=at position 1 with \arrow{>}},}}
-\tikzset{smallR/.style={european resistor, resistors/scale=0.5}}
-\tikzset{smallI/.style={current/scale=0.5}}
-
-\newcommand\dotptA{1.5pt}
-\newcommand\dotptB{2.5pt}
-\newcommand\dotptC{3 pt}
-
-\usetikzlibrary{quotes,angles}
-\usetikzlibrary{patterns}
-
-% nextpage of sections
-\AddToHook{cmd/section/before}{\clearpage}
-
-\usepackage[titles]{tocloft}
-\renewcommand{\contentsname}{Table of Contents}
-\setlength{\cftbeforesecskip}{3pt}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsecfont}{\normalfont}
-\renewcommand{\cftsecpagefont}{\normalfont}
 
 \newcommand\END[1]{ 
 	\begin{center}  
@@ -512,31 +471,12 @@
 	\end{center}
 }
 
-\usepackage{siunitx}
 %%% Plumbing Arithmetic %%%
 \newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
 \usepackage{xfrac}
 
 \usepackage{hyphenat}		% Remove error in HBOX
 
-\newcommand\clock[3]{%
-\begin{tikzpicture}[line cap=round]
-\filldraw [fill=colorB!5,line width=2pt] (0,0) circle (2cm);
-\foreach \angle / \label in
-	{0/3, 30/2, 60/1, 90/12, 120/11, 150/10, 180/9,
-	210/8, 240/7, 270/6, 300/5, 330/4}
-	{
-	\draw[line width=1pt] (\angle:1.8cm) -- (\angle:2cm);
-	\draw (\angle:1.5cm) node{\textsf{\label}};
-	}
-\foreach \angle in {0,90,180,270}
-\draw[line width=2pt] (\angle:1.8cm) -- (\angle:2cm);
-	\draw[rotate=90,line width=2pt] (0,0) -- (-#1*30-#2*30/60:0.7cm); % hours
-	\draw[rotate=90,line width=1.5pt] (0,0) -- (-#2*6:1.2cm); % minutes
-	% \draw[rotate=90,thin,red] (0,0) -- (-#3*6:1.2cm); % seconds
-	\path [fill=colorB] (0,0) circle (2.5pt) coordinate (0);
-\end{tikzpicture}%
-}
 
 \newcommand\enuitems[1]{
 	\begin{enumerate}[topsep=0pt, label= \Roman*., leftmargin=*]
@@ -563,7 +503,6 @@
 	\newpage
 }
 
-\usepackage{soul}	% Highlight
 
 \usepackage{supertabular}
 %%% FIX LENGTH OF TABULAR %%%
