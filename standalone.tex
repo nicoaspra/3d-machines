@@ -1,0 +1,969 @@
+\documentclass[10pt]{article}
+\usepackage{lmodern}
+
+%%%%%% SIZE SETTINGS %%%%%
+\usepackage[left=0.5in, right=.35in, top=.35in, bottom=.7in, 
+		 	includehead,
+			% includefoot, 
+			headsep=5pt, 
+			paperheight=13in, 
+			paperwidth=8.5in,
+]{geometry}
+%%%%%%%%% preambles/exclude_not-in-presentation %%%%%%
+%%%%%%%%% preambles/include_subgroups.tex %%%%%%%
+\newcommand\subgroup[1]
+	{ \pagebreak[2] \vspace{.5em}\hspace*{-2em}\textsc{\tcB{#1}}\vspace{-2.5mm} }
+\newcommand\subsubgroup[1]
+	{ \vspace{.5em}\hspace*{-2em}\textit{#1}\vspace{-0.7em} }
+\newcommand\bsubgroup[1]{\textsc{\tcB{#1}} \vspace{-6mm}  }
+
+
+
+
+\newcommand\GPath[1]{
+	% \graphicspath{ #1
+    }
+\newcommand\FRONTpage[3]{
+    %  #1 #2 #3
+}
+\newcommand\HiddenInPres[1]{
+    #1
+}
+\newcommand\OnlyInPres[1]{
+    % #1
+}
+\newcommand\CenterText[1]{
+}
+
+\newcommand\ThreeCols[1]{
+	\begin{multicols*}{2}
+		#1
+	\end{multicols*}
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\fancyhead[L]{\footnotesize{Engr. Nico O. Aspra, M.Eng., RMP, LPT}}
+\fancyhead[C]{Question Bank}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+
+\renewcommand\sectionmark[1]{\markboth{#1}{}}	%Remove section numbering from header
+
+
+
+
+
+
+
+
+
+
+%%%%%% VIEWER SETTINGS %%%%%
+\newcommand\ans{\!*
+}
+%%%%%%%%% include_MCQ_ifansWithTwoChoices.tex %%%%%%%%%
+%%%%% MCQ %%%%%
+\usepackage{amsmath,amsthm,amsfonts,amssymb,dsfont}
+\usepackage{ifthen}
+
+\newbox\allanswers
+\setbox\allanswers=\vbox{}
+\newenvironment{answer}
+	{%
+	\global\setbox\allanswers=\vbox\bgroup
+	\unvbox\allanswers
+	}%
+	{%
+%	\bigbreak				%remove for answers spacing
+	\egroup
+	}
+\newcommand{\showallanswers}{\par\unvbox\allanswers}
+\newcommand*{\getanswer}[5]{%
+	\ifthenelse{\equal{#5}{a}}
+	{\begin{answer}\thequestion. (a)~#1\end{answer}}
+	{\ifthenelse{\equal{#5}{b}}
+		{\begin{answer}\thequestion. (b)~#2\end{answer}}
+		{\ifthenelse{\equal{#5}{c}}
+			{\begin{answer}\thequestion. (c)~#3\end{answer}}
+			{\ifthenelse{\equal{#5}{d}}
+				{\begin{answer}\thequestion. (d)~#4\end{answer}}
+				{\begin{answer}\textcolor{red}{\thequestion. (#5)~Invalid answer choice.}\end{answer}}}}}
+}
+
+\setlength\parindent{0pt}
+%usage \choice{ }{ }{ }{ }
+%(A)(B)(C)(D)
+\newcommand{\fourch}[5]{
+    \par
+	\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{a}}{
+	   \begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 * & (b)~#2
+	   \end{tabular}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{b}}{
+		\begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2 *
+    	\end{tabular}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{}}{
+	   \begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2
+	   \end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{a}}{
+	   \begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 * & (b)~#2 & (c)~#3 & (d)~#4
+    	\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{b}}{
+		\begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2 * & (c)~#3 & (d)~#4
+    	\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{c}}{
+		\begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2 & (c)~#3 * & (d)~#4
+    	\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{d}}{
+		\begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2 & (c)~#3 & (d)~#4 *
+    	\end{tabular}
+	}
+	{
+		\begin{tabular}{*{4}{@{}p{0.23\linewidth}}}
+		(a)~#1 & (b)~#2 & (c)~#3 & (d)~#4
+    	\end{tabular}
+	}
+	}
+	}
+	}
+	}
+	}
+	}
+	\getanswer{#1}{#2}{#3}{#4}{#5}
+}
+
+
+
+%(A)(C)
+%(B)(D)
+\newcommand{\twoch}[5]{
+	\par
+	\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{a}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 * & (c)~#2
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{b}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (b)~#2 *
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (c)~#2
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{a}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 * & (c)~#3
+		\end{tabular}
+		\par
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(b)~#2 & (d)~#4
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{b}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (c)~#3
+		\end{tabular}
+		\par
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(b)~#2 * & (d)~#4
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{c}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (c)~#3 *
+		\end{tabular}
+		\par
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(b)~#2 & (d)~#4
+		\end{tabular}
+	}
+	{\ifthenelse{\equal{#5}{d}}{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (c)~#3
+		\end{tabular}
+		\par
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(b)~#2 & (d)~#4 *
+		\end{tabular}
+	}
+	{
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(a)~#1 & (c)~#3
+		\end{tabular}
+		\par
+		\begin{tabular}{*{2}{@{}p{0.5\linewidth}}}
+			(b)~#2 & (d)~#4
+		\end{tabular}
+	}
+	}
+	}
+	}
+	}
+	}
+	}
+	\vspace{-1em}
+	\getanswer{#1}{#2}{#3}{#4}{#5}  
+}
+
+
+%(A)
+%(B)
+%(C)
+%(D)
+\newcommand{\onech}[5]{
+\par
+	% (a)~#1 \par (b)~#2 \par (c)~#3 \par (d)~#4
+	\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{a}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1 *
+			\item ~#2
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{b}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2 *
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#3}{}\AND\equal{#4}{}\AND\equal{#5}{}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#5}{a}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1 *
+			\item ~#2
+			\item ~#3
+			\item ~#4
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#5}{b}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2 *
+			\item ~#3
+			\item ~#4
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#5}{c}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2
+			\item ~#3 *
+			\item ~#4
+		\end{enumerate}
+	}
+	{\ifthenelse{\equal{#5}{d}}{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2
+			\item ~#3
+			\item ~#4 *
+		\end{enumerate}
+	}
+	{
+		\begin{enumerate}[itemsep=0pt,topsep=0pt,label=(\alph*),align=left, wide=0pt, widest=(b),labelsep=-8pt,leftmargin = *]
+			\item ~#1
+			\item ~#2
+			\item ~#3
+			\item ~#4
+		\end{enumerate}
+	}
+	}
+	}
+	}
+	}
+	}
+	}
+\getanswer{#1}{#2}{#3}{#4}{#5}  
+}
+
+
+\newlength\widthcha
+\newlength\widthchb
+\newlength\widthchc
+\newlength\widthchd
+\newlength\widthch
+\newlength\tabmaxwidth
+%%
+\setlength\tabmaxwidth{0.96\linewidth}
+\newlength\fourthtabwidth
+\setlength\fourthtabwidth{0.17\linewidth}
+\newlength\halftabwidth
+\setlength\halftabwidth{0.37\linewidth}	%adjust for spacing before onech
+%%
+\newcommand{\choice}[5]{%
+\settowidth\widthcha{AM.#1}\setlength{\widthch}{\widthcha}%
+\settowidth\widthchb{BM.#2}%
+\ifdim\widthch<\widthchb\relax\setlength{\widthch}{\widthchb}\fi%
+	\settowidth\widthchb{CM.#3}%
+\ifdim\widthch<\widthchb\relax\setlength{\widthch}{\widthchb}\fi%
+	\settowidth\widthchb{DM.#4}%
+\ifdim\widthch<\widthchb\relax\setlength{\widthch}{\widthchb}\fi%
+%%
+\ifdim\widthch>\halftabwidth
+	\onech{#1}{#2}{#3}{#4}{#5}
+\else\ifdim\widthch<\halftabwidth
+\ifdim\widthch>\fourthtabwidth
+	\twoch{#1}{#2}{#3}{#4}{#5}
+\else
+	\twoch{#1}{#2}{#3}{#4}{#5}	%change
+	% \fourch{#1}{#2}{#3}{#4}{#5}	% {a}{b}{c}{d}{e}
+  
+\fi\fi\fi}
+
+
+%%% Allows MCQ to be used in book document class %%%
+\newcounter{question}
+\newenvironment{questions}{%
+	\list{\thequestion.}%
+	{%
+ 	\usecounter{question}%
+	\def\question{\item}%
+	\settowidth{\leftmargin}{10.\hskip\labelsep}%
+	\labelwidth\leftmargin\advance\labelwidth-\labelsep
+ 	}%
+	}
+{%
+\endlist
+}%
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newcommand\Ans[1]{ 			%%hide for 
+	\par \textcolor{colorS}{\footnotesize #1}
+}
+\newcommand\note[1]{
+	\textcolor{colorS}{\footnotesize note: {#1}}
+}	
+\newcommand\UL[1]{\underline{#1}}
+
+\newcommand\HL[1]{\tcB{#1}}
+
+\newcommand\Sol[1]{
+	\par \textcolor{colorS}{\footnotesize #1}
+}
+\newcommand\blank[1]{\underline{#1}}
+\newcommand\blankAbrev[1]{\underline{#1}}
+
+\newcommand\Discussion[1]{
+	% \color{colorS}\par{\footnotesize#1}\color{colorM} 
+	#1
+}
+
+\fancyfoot[R]{\thepage}
+
+
+
+
+%%%%%% preamble_MCQ.tex %%%%%
+
+\usepackage[utf8x]{inputenc}		%fix error in inputenc
+\raggedbottom						%corrects the error
+\usepackage{amsfonts,amsmath,tabu}	%tabu - equation table
+\usepackage{cancel}					%cancel to
+\usepackage{multicol}				%multicolumn
+\usepackage[inline]{enumitem}		%inline lists
+\usepackage{bm}						%bold math equations
+\usepackage{tikz,pgf,pgfplots}		%drawings
+\pgfplotsset{compat=newest}
+\usetikzlibrary{shapes.geometric}
+\usepgfplotslibrary{polar}
+\usepackage{subcaption}				%subcaptions of images and tables
+\usepackage{graphicx}				%insert images
+\graphicspath{ {./figures/} }
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning,angles}
+\usepackage[most]{tcolorbox}  		%box equations
+\everymath{\displaystyle}			%displaytstyle of all math
+\parindent 0ex						%disregard indention
+\setlength{\parskip}{1em}			%paragraph spacing
+\usepackage{empheq,amssymb,zref-savepos} 	%bracket b/w two equations
+\usepackage{booktabs}
+
+\usepackage{xcolor}
+%%% DEF COLOR %%%
+\definecolor{colorA}{rgb}{0.25, 0.51, 0.43}		%viridian
+\definecolor{colorB}{rgb}{0.89, 0.04, 0.36}		%raspberry
+\definecolor{colorC}{RGB}{0,96,138}			%thomas' dark blue
+\definecolor{colorD}{RGB}{0,174,239}		%thomas' light blue
+\definecolor{colorY}{RGB}{255,224,102}		%yellow
+
+%%% Link Table of Contents %%%
+\usepackage{color}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true, % make the links colored
+	linkcolor=colorA, % color TOC links in blue
+	urlcolor=red, % color URLs in red
+	linktoc=all % 'all' will create links for everything in the TOC
+	}
+
+\newcommand\ansbox {
+	\begin{center}
+ 		 \fbox{\fbox{\parbox{\linewidth}{  
+ 		 \begin{center} \textbf{\textsc{Answer Key:}} \end{center}
+ 		 \showallanswers
+ 	 	\vspace{1em}  }}}
+	\end{center}	}
+
+\newcommand\anskey {
+	\begin{center} \textbf{\textsc{Answer Key:}} \end{center}
+	\hrule
+	\medskip  
+	\showallanswers
+	}
+
+
+
+
+%%%%%% additional preambles.tex %%%%%
+\usepackage{esvect}						%\vv for vectors
+\usepackage{float}
+
+\definecolor{colorBG}{RGB}{255,255,255} 	%Background Color
+\definecolor{colorM}{RGB}{94,90,90}			%Main Color
+\definecolor{colorS}{RGB}{150,150,150}		%Solution Color
+\definecolor{colorY}{RGB}{255,224,102}		%yellow
+\color{colorM}
+
+\usepackage{epsdice}		%dice
+\usepackage{textmerg}		%mailmerge
+
+\newcommand\PROBLEMS[1]{
+	% #1
+}
+
+\usepackage{changepage}
+
+% remove section numbering
+\makeatletter
+\renewcommand{\@seccntformat}[1]{}
+\makeatother
+
+%%% GRAPHS %%%
+\usepackage{pgf,tikz,pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{mathrsfs}
+\usetikzlibrary{angles,patterns,calc}
+\usetikzlibrary{arrows,decorations.markings,intersections}	
+
+\usepackage{titletoc}
+\usetikzlibrary{shapes.geometric}
+\usepgfplotslibrary{polar}
+\tikzset{>=latex}		%convert arrows > to latex
+\tikzset{dot/.style = {draw,fill,circle,colorB, inner sep=\dotptA}}	\tikzset{linearrow/.style = {colorB, thin},}
+
+\tikzset{arrow inside/.style = {postaction=decorate,decoration={markings,mark=at position 1 with \arrow{>}},}}
+\tikzset{smallR/.style={european resistor, resistors/scale=0.5}}
+\tikzset{smallI/.style={current/scale=0.5}}
+
+\newcommand\dotptA{1.5pt}
+\newcommand\dotptB{2.5pt}
+\newcommand\dotptC{3 pt}
+
+\usetikzlibrary{quotes,angles}
+\usetikzlibrary{patterns}
+
+% nextpage of sections
+\AddToHook{cmd/section/before}{\clearpage}
+
+\usepackage[titles]{tocloft}
+\renewcommand{\contentsname}{Table of Contents}
+\setlength{\cftbeforesecskip}{3pt}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+
+\newcommand\END[1]{ 
+	\begin{center}  
+		\textbf{$\cdots$\, END $\cdots$}  
+	\end{center}
+}
+
+\usepackage{siunitx}
+%%% Plumbing Arithmetic %%%
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+\usepackage{xfrac}
+
+\usepackage{hyphenat}		% Remove error in HBOX
+
+\newcommand\clock[3]{%
+\begin{tikzpicture}[line cap=round]
+\filldraw [fill=colorB!5,line width=2pt] (0,0) circle (2cm);
+\foreach \angle / \label in
+	{0/3, 30/2, 60/1, 90/12, 120/11, 150/10, 180/9,
+	210/8, 240/7, 270/6, 300/5, 330/4}
+	{
+	\draw[line width=1pt] (\angle:1.8cm) -- (\angle:2cm);
+	\draw (\angle:1.5cm) node{\textsf{\label}};
+	}
+\foreach \angle in {0,90,180,270}
+\draw[line width=2pt] (\angle:1.8cm) -- (\angle:2cm);
+	\draw[rotate=90,line width=2pt] (0,0) -- (-#1*30-#2*30/60:0.7cm); % hours
+	\draw[rotate=90,line width=1.5pt] (0,0) -- (-#2*6:1.2cm); % minutes
+	% \draw[rotate=90,thin,red] (0,0) -- (-#3*6:1.2cm); % seconds
+	\path [fill=colorB] (0,0) circle (2.5pt) coordinate (0);
+\end{tikzpicture}%
+}
+
+\newcommand\enuitems[1]{
+	\begin{enumerate}[topsep=0pt, label= \Roman*., leftmargin=*]
+		#1
+\end{enumerate}
+}
+
+\newcommand\scaleA{0.85}
+\newcommand\scaleB{0.6}
+
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=0pt}
+
+\usepackage{nameref}
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+%
+\newcommand\ShowHideAns{
+	\newpage
+	\currentname
+	\vspace*{1em}
+	\showallanswers
+	\newpage
+}
+
+\usepackage{soul}	% Highlight
+
+\usepackage{supertabular}
+%%% FIX LENGTH OF TABULAR %%%
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{qrcode}
+
+
+
+
+
+
+
+
+%%%%%% include_macros.tex %%%%%
+\newcommand\tcr[1]{\textcolor{red}{#1}}
+\newcommand\tcb[1]{\textcolor{black}{#1}}
+\newcommand\tcA[1]{\textcolor{colorA}{#1}}
+\newcommand\tcB[1]{\textcolor{colorB}{#1}}
+\newcommand\tcC[1]{\textcolor{colorC}{#1}}
+\newcommand\bfA[1]{\textcolor{colorA}{\textbf{#1}}}
+\newcommand\bfB[1]{\textcolor{colorB}{\textbf{#1}}}
+\newcommand\bfC[1]{\textcolor{colorC}{\textbf{#1}}}
+\newcommand\itA[1]{\textcolor{colorA}{\textit{#1}}}
+\newcommand\itB[1]{\textcolor{colorB}{\textit{#1}}}
+\newcommand\itC[1]{\textcolor{colorC}{\textit{#1}}}
+\newcommand\bfitA[1]{\textcolor{colorA}{\textbf{\textit{#1}}}}
+\newcommand\bfitB[1]{\textcolor{colorB}{\textbf{\textit{#1}}}}
+\newcommand\head[1]{\textcolor{colorB}{\textbf{\textit{#1}}} 
+
+}
+\newcommand\case[1]{\textcolor{colorB}{\textbf{\text{Case #1:}}}}
+%\newcommand\thrm[1]{\textcolor{colorB}{\textbf{\textsc{Theorem #1:}}}}
+\newcommand\typA[1]{\textcolor{colorA}{\textbf{#1}} \vspace{.5em}\\}
+\newcommand\typB[1]{\textcolor{colorB}{\textbf{#1}} \vspace{.5em}\\}
+\newcommand\un[1]{\,\mathrm{#1}}
+
+\newcommand\x{\times}
+\newcommand\R{\mathbb{R}}
+\newcommand\ufrac[2]{\frac{\text{#1}}{\text{#2}}}
+\newcommand\degg{^{\circ}}
+\newcommand\deggg{$^{\circ}$ }
+\newcommand\degC{^{\circ}\mathrm{C}}
+\newcommand\degF{^{\circ}\mathrm{F}}
+\newcommand\degR{^{\circ}\mathrm{R}}
+\newcommand\degRe{^{\circ}\mathrm{Re}}
+\newcommand\degK{\,\mathrm{K}}
+\newcommand\degAPI{^{\circ}\mathrm{API}}
+\newcommand\expo[1]{\times 10^{#1}}
+\newcommand\ohm{\Omega}
+
+\newcommand\ST{$^{\text{st}}$\,}
+\newcommand\nd{$^{\text{nd}}$\,}
+\newcommand\rd{$^{\text{rd}}$\,}
+\newcommand\nth{$^{\text{th}}$\,}
+
+\newcommand\erule{\tcA{\hrulefill}}
+\newcommand\fns[1]{\footnotesize{#1}}
+\newcommand\tagans{\tag{ans.}}
+
+\newcommand\Dy{\Delta y}
+\newcommand\Dx{\Delta x}
+\newcommand\D{\Delta}
+\newcommand\dydx{\frac{dy}{dx}}
+\newcommand\dydxp[1]{\frac{d^{#1}y}{dx^{#1}}}
+\newcommand\dudx{\frac{du}{dx}}
+\newcommand\ddx{\frac{d}{dx}}
+\newcommand\ddu{\frac{d}{du}}
+\newcommand\ddy{\frac{d}{dy}}
+\newcommand\ddw{\frac{d}{dw}}
+\newcommand\ddt{\frac{d}{dt}}
+\newcommand\pd[2]{\frac{\partial#1}{\partial#2}}
+\newcommand\mixfrac[3]{#1\,\sfrac{#2}{#3}}
+
+\newcommand\perm[2]{\,\!_{#1}\text{P}_{#2}}
+\newcommand\comb[2]{\,\!_{#1}\text{C}_{#2}}
+
+\usepackage{mathtools} 
+\newcommand\br[1]{\left(#1\right)}
+\newcommand\brk[1]{\left[#1\right]}
+\newcommand\bbrk[1]{\Bigl[#1\Bigr]}
+\newcommand\bbbrk[1]{\Biggl[#1\Biggr]}
+\newcommand\brv[1]{\left|#1\right|}
+\newcommand\bbrv[1]{\Bigl|#1\Bigr|}
+\newcommand\bbbrv[1]{\Biggl|#1\Biggr|}
+\newcommand\brc[1]{\left\{#1\right\}}
+
+\newcommand\Ncancel[4]{\frac{#1 \cancel{\un{#2}}}{#3 \un{#4}}}
+\newcommand\Dcancel[4]{\frac{#1 \un{#2}}{#3 \cancel{\un{#4}}}}
+\newcommand\NDcancel[4]{\frac{#1 \cancel{\un{#2}}}{#3 \cancel{\un{#4}}}}
+
+\newcommand\newcol {\vfill\null\columnbreak}
+\newcommand\uline {\rule{1cm}{0.15mm} }
+\newcommand\Uline {\rule{5cm}{0.15mm} }
+\newcommand\Lline {\rule{17.5cm}{0.15mm} }
+\newcommand\colorule{\vspace{-1em}\textcolor{colorA}{\hrule}}
+
+%%% UNDER BRACES
+\newcommand\ubrace[2]{
+	{\color{colorA!70}\underbrace{\color{colorM}#1}_\text{\color{colorA}#2}
+	}}
+\newcommand\ubraces[3]{
+	{\color{colorA!70}\underbrace{\color{colorM}#1}_{\substack{\text{\color{colorA}#2} \\ \text{\color{colorA}#3}}}
+	}}
+
+%% PESO SIGN %%%
+\makeatletter
+\DeclareRobustCommand{\PHP}{%
+  \begingroup
+  \leavevmode\,\vphantom{P}%
+  \dimen\z@=.5\fontcharht\font`P\relax
+  \dimen\tw@=0.33333\dimen\z@
+  \ooalign{%
+    \raisebox{\dimexpr\dimen\z@+2\dimen\tw@-0.4pt}{\rule{\fontcharwd\font`P}{0.4pt}}\cr
+    \raisebox{\dimexpr\dimen\z@+\dimen\tw@-0.2pt}{\rule{\fontcharwd\font`P}{0.4pt}}\cr
+    P\cr
+  }%
+  \,\endgroup
+}
+\makeatother
+
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+
+\DeclareMathOperator{\versine}{versine}
+\DeclareMathOperator{\vercos}{vercos}
+\DeclareMathOperator{\coversine}{coversine}
+\DeclareMathOperator{\covercos}{covercos}
+\DeclareMathOperator{\haversine}{haversine}
+\DeclareMathOperator{\havercos}{havercos}
+\DeclareMathOperator{\hacoversine}{hacoversine}
+\DeclareMathOperator{\hacovercos}{hacovercos}
+\DeclareMathOperator{\exsec}{exsec}
+\DeclareMathOperator{\excsc}{excsc}
+
+\newcommand\blankpage{\newpage\leavevmode
+  % \thispagestyle{empty}
+\newpage}
+
+\newcommand\blankpageNoStyle{\newpage\leavevmode
+  \thispagestyle{empty}
+\newpage}
+
+
+
+
+
+
+
+
+%%%%%% include_MCQ_randomizer.tex %%%%%
+\usepackage{xparse}
+
+\ExplSyntaxOn
+\seq_new:N \l_randomlist_seq
+\int_new:N \l_random_items_int
+\NewDocumentEnvironment{randomquestions}{ o  +b }
+{
+    % use a regular expression to split the environment
+    % around the \item commands
+    \regex_split:nnN { \s*\c{item}\s* } { #2 } \l_randomlist_seq
+    \seq_pop_left:NN \l_randomlist_seq \l_items_tl % pop empty first item
+    \seq_if_empty:NF \l_randomlist_seq {
+        \seq_shuffle:N \l_randomlist_seq %% randonly shuffle items
+        % the number of items to print is given by the optional #1
+        % defaulting to the full list of items
+        \IfNoValueTF{#1}{
+            \int_set:Nn \l_random_items_int { \seq_count:N \l_randomlist_seq}
+        }{
+            \int_set:Nn \l_random_items_int { #1 }
+        }
+        % finally, insert the itemize environment
+        \begin{questions}
+          \int_do_while:nNnn \l_random_items_int > 0 {
+            \seq_pop:NN \l_randomlist_seq \l_tmpa_tl
+            \item \tl_use:N \l_tmpa_tl
+            \int_decr:N \l_random_items_int% one less item to go
+          }
+        \end{questions}
+    }
+}{}
+\ExplSyntaxOff
+
+
+
+
+\usepackage{longtable}
+\usepackage{adjustbox}
+
+% \fancyhead[C]{}
+\fancyfoot[R]{}
+
+
+\begin{document}
+\ThreeCols{
+
+
+
+
+
+
+
+\section{Integral Calculus 01}
+
+
+
+\bsubgroup{Recap in Differentiation}
+\begin{questions}
+\question
+Differentiate $(x^2 + 2)^{1/2}$
+\choice	{$\frac{(x^2+1)^{1/2}}{2}$}		
+		{$\frac{2x}{(x+2)^{1/2}}$}		
+		{$\frac{x}{(x^2 + 2)^{1/2}}$}
+		{$(x^2 + 2)^2$}
+		{c}
+
+\question
+Find the second derivative of $y = x\br{x + 1}^{3}$, when $x = 1$
+\choice	{42}			
+		{36}			
+		{57}			
+		{16}			
+		{b}
+
+\subgroup{Definite And Indefinite Integrals}
+
+
+\question
+Evaluate: $\int\frac{x}{(4 + x^{2})^{3/2}}\,dx$
+\choice	{$- (4 + x^{2})^{- 1/2} + C$}
+		{$- (12 + x^{2})^{1/2} + C$}
+		{$(4 + x^{2})^{1/2} + C$}
+		{$(4 + x^{2})^{3/2} + C$}
+		{a}
+		
+\question
+Evaluate: $\int\frac{dx}{(4 + x^{2})^{3/2}}$
+\choice	{$\frac{1}{4\sqrt{x^{2} + 4}} + C$}
+		{$\frac{- 1}{4\sqrt{x^{2} + 4}} + C$}
+		{$\frac{- x}{4\sqrt{x^{2} + 4}} + C$} 
+		{$\frac{x}{4\sqrt{x^{2} + 4}} + C$}
+		{d}
+		
+\question
+Evaluate: $\int\frac{e^{x} \,dx}{e^{x} + 1}$
+\choice	{$\ln^{2}{\left( e^{- x} + 1 \right) + C}$} 
+		{$\ln^{2}{\left( e^{x} + 1 \right) + C}$} 
+		{$\ln{\left( e^{- x} + 1 \right) + C}$}
+		{$\ln{\left( e^{x} + 1 \right) + C}$}
+		{d}
+		
+\question
+Evaluate: $\int_{1}^{e}{\ln x}\,dx$
+\choice	{infinity}
+		{0}
+		{1} 
+		{$e$}
+		{}
+		
+\question
+Evaluate: $\int_{5}^{6} {x(x - 5)^{12}}\,dx$
+\choice	{0.456}
+		{0.587} 
+		{0.708}
+		{0.672}
+		{}
+
+\subgroup{Wallis Formula}
+\question
+Evaluate: $\int_{0}^{\pi/6} {\cos^{8}{3A}}\,dA$
+\choice	{$\frac{35}{768}\pi$}
+		{$\frac{45}{786}\pi$} 
+		{$\frac{125}{768}\pi$}
+		{$\frac{5}{768}\pi$}
+		{a}
+\Sol{check RAD mode $\int_{0}^{\pi\div 6} {\cos(3x)^{8}}\,dx$}
+		
+\question
+Evaluate: $\int_{0}^{\pi/2} {12 \sin^5 x \cos^5 x}\,dx$
+\choice	{0.20} 
+		{0.50}
+		{0.25}
+		{0.35}
+		{a}
+		
+\subgroup{Double Integration}
+\question
+Evaluate: $\int_{0}^{1} \int_{0}^{\pi} {r\sin u}\,du \,dr$
+\choice	{0}	
+		{1/2} 
+		{1}
+		{1/3}
+		{c}
+\Sol{$\int_{0}^{\pi} {\sin u}\,du \cdot \int_{0}^{1}  {r}\,dr$}
+
+\question
+Evaluate: $\int_{0}^{1} \int_{0}^{4} {x^3}\,dy \,dx$
+\choice	{1}	
+		{4} 
+		{2}
+		{5}
+		{a}
+\Sol{$\int_{0}^{4} 1\,dy \cdot \int_{0}^{1} x^3\,dx$}
+
+\subgroup{Triple Integration}
+\question
+Evaluate: $\int_{0}^{2} \int_{0}^{1} \int_{0}^{\pi/2} {z r^{2}\sin u}\,du \,dr \,dz$
+\choice	{4/3} 
+		{2/3} 
+		{5/3}
+		{1/3}
+		{b}
+\Sol{$\int_{0}^{\pi/2} {\sin u}\,du \cdot \int_{0}^{1} {r^{2}}\,dr \cdot \int_{0}^{\pi/2} {z}\,dz$}
+
+\subgroup{Plane Areas}
+\question
+Find the area bounded by the line $x - 2y + 10 = 0$, the $x$-axis, the $y$-axis and $x = 10$?
+\choice	{18}
+		{45}
+		{36}
+		{75}
+		{a}
+\Sol{$\int_{0}^{10} \br{\frac12x+5}\,dx$ \\
+or just determine the point of intersection and add the rectangle and triangle}
+
+\question
+What is the area bounded by the curve $y^{2} = x$ and the line $x = 4$?
+\choice	{32/3}
+		{34/7} 
+		{64/3}
+		{16/3}
+		{a}
+\Sol{you can solve it from left to right or down to up. \\
+$2\int_{0}^{4} \br{\sqrt{x}-0}\,dx$ \\
+or \\
+solve for the intersection points first: $y^2=4$; $y = \pm2$ \\
+$\int_{-2}^{2} \br{4-y^2}\,dy$
+}
+
+\question
+Find the area bounded by the curves $x^{2} + y^{2} = 9$ and $4x^{2} + 9y^{2} = 36$, on the first quadrant?
+\choice	{$2/3\pi$}
+		{$3/4\pi$}
+		{$1/2\pi$}
+		{$3/2\pi$}
+		{b}
+\Sol{$\int_{0}^{3}\br{\sqrt{-x^2+9}-\sqrt{\frac{-x^2+36}{9}}}\,dx$ \\
+or \\
+$\frac{A_\text{circ}-A_\text{ellipse}}{4} = \frac{3^2\pi-(2)(3)\pi}{4}$}
+
+\question
+Find the area bounded by the parabolas $x^{2} - 2y = 0$ and $x^{2} + 2y - 8 = 0$.
+\choice	{32/3}
+		{20/3}
+		{16/3}
+		{64/3}
+		{a}
+\Sol{Sketch, \\
+equate to find $x_1=-2$ and $x_2=2$ \\
+$\int_{-2}^{2}\brk{\br{-\frac12x^2+4}-\br{\frac12x^2}}\,dx$
+}
+
+\subgroup{Polar Area by Integration}
+\question
+What is the area within the curve $r^2 = 16\cos\theta$.
+\choice	{30}
+		{34}
+		{36}
+		{32}
+		{d}
+\Sol{$A = \int_a^b r^2\,d\theta$ \\
+Solve for the upper and lower limits. Use Mode 7. $f(x) = \pm 4\sqrt{\cos\theta}, start 0, end 360, step 30$}
+
+
+\subgroup{Length of Arc}
+\question
+Determine the length of arc from $x = - 2$ to $x = 2$ of the curve
+$x^{2} = 4y$
+\choice	{2.3}
+		{1.3}
+		{2.6}
+		{4.6}
+		{d}
+\Sol{$\int_{x_1}^{x_2} \sqrt{1+(y')^2}\,dx = \int_{-2}^{2} \sqrt{1+\br{\frac{x}{2}}^2}\,dx$}
+
+
+\end{questions}
+\END{}
+
+
+
+
+
+
+
+}
+
+
+\end{document}
