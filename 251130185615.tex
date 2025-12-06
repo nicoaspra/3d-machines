@@ -696,37 +696,37 @@
 
 
 
-\usepackage{xparse}
+% \usepackage{xparse}
 
-\ExplSyntaxOn
-\seq_new:N \l_randomlist_seq
-\int_new:N \l_random_items_int
-\NewDocumentEnvironment{randomquestions}{ o  +b }
-{
-    % use a regular expression to split the environment
-    % around the \item commands
-    \regex_split:nnN { \s*\c{item}\s* } { #2 } \l_randomlist_seq
-    \seq_pop_left:NN \l_randomlist_seq \l_items_tl % pop empty first item
-    \seq_if_empty:NF \l_randomlist_seq {
-        \seq_shuffle:N \l_randomlist_seq %% randonly shuffle items
-        % the number of items to print is given by the optional #1
-        % defaulting to the full list of items
-        \IfNoValueTF{#1}{
-            \int_set:Nn \l_random_items_int { \seq_count:N \l_randomlist_seq}
-        }{
-            \int_set:Nn \l_random_items_int { #1 }
-        }
-        % finally, insert the itemize environment
-        \begin{questions}
-          \int_do_while:nNnn \l_random_items_int > 0 {
-            \seq_pop:NN \l_randomlist_seq \l_tmpa_tl
-            \item \tl_use:N \l_tmpa_tl
-            \int_decr:N \l_random_items_int% one less item to go
-          }
-        \end{questions}
-    }
-}{}
-\ExplSyntaxOff
+% \ExplSyntaxOn
+% \seq_new:N \l_randomlist_seq
+% \int_new:N \l_random_items_int
+% \NewDocumentEnvironment{randomquestions}{ o  +b }
+% {
+%     % use a regular expression to split the environment
+%     % around the \item commands
+%     \regex_split:nnN { \s*\c{item}\s* } { #2 } \l_randomlist_seq
+%     \seq_pop_left:NN \l_randomlist_seq \l_items_tl % pop empty first item
+%     \seq_if_empty:NF \l_randomlist_seq {
+%         \seq_shuffle:N \l_randomlist_seq %% randonly shuffle items
+%         % the number of items to print is given by the optional #1
+%         % defaulting to the full list of items
+%         \IfNoValueTF{#1}{
+%             \int_set:Nn \l_random_items_int { \seq_count:N \l_randomlist_seq}
+%         }{
+%             \int_set:Nn \l_random_items_int { #1 }
+%         }
+%         % finally, insert the itemize environment
+%         \begin{questions}
+%           \int_do_while:nNnn \l_random_items_int > 0 {
+%             \seq_pop:NN \l_randomlist_seq \l_tmpa_tl
+%             \item \tl_use:N \l_tmpa_tl
+%             \int_decr:N \l_random_items_int% one less item to go
+%           }
+%         \end{questions}
+%     }
+% }{}
+% \ExplSyntaxOff
 
 \usepackage{longtable}
 \usepackage{adjustbox}
